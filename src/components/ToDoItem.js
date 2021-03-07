@@ -51,6 +51,9 @@ class ToDoItem extends Component {
         if(this.hiddenDateRef.current !==null){ 
             this.hiddenDateRef.current.focus();
         }
+        if(this.hiddenStatusRef.current !==null){ 
+            this.hiddenStatusRef.current.focus();
+        }
     }
 
 
@@ -105,7 +108,7 @@ class ToDoItem extends Component {
                 <div className='item-col due-date-col' onClick ={this.handleDateClick} style = {{display:this.state.displayDate}}>{this.state.date}</div>
                 <input type ="date" name = "hidden_date_input" value ={this.state.date} style ={{display: this.state.hiddenDate}} onChange ={this.handleDateChange} onBlur = {this.handleDateBlur} ref = {this.hiddenDateRef}/>
                 <div className='item-col status-col' className={statusType} onClick = {this.handleStatusClick} style = {{display:this.state.displayStatus,color : this.state.status == 'complete' ? "#7CC0FB" : "#EDCE42" }}>{this.state.status}</div>
-                <select onChange = {this.handleStatusChange} onBlur ={this.handleStatusBlur} style = {{display:this.state.hiddenStatus}}>
+                <select onChange = {this.handleStatusChange} onBlur ={this.handleStatusBlur} style = {{display:this.state.hiddenStatus}} ref = {this.hiddenStatusRef}>
                     <option value = "complete">complete</option>
                     <option value = "incomplete">incomplete</option>
                 </select>
