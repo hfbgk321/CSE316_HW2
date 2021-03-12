@@ -1,12 +1,14 @@
 // IMPORT ALL THE THINGS NEEDED FROM OTHER JAVASCRIPT SOURCE FILES
 import React, { Component } from 'react';
 import testData from './test/testData.json'
-import jsTPS from './common/jsTPS'
+import jsTPS from './common/jsTPS.js'
 
+import ChangeTask_Transaction from './transactions/ChangeTask_Transaction.js'
 // THESE ARE OUR REACT COMPONENTS
 import Navbar from './components/Navbar'
 import LeftSidebar from './components/LeftSidebar'
 import Workspace from './components/Workspace'
+import { LinkTwoTone } from '@material-ui/icons';
 {/*import ItemsListHeaderComponent from './components/ItemsListHeaderComponent'
 import ItemsListComponent from './components/ItemsListComponent'
 import ListsComponent from './components/ListsComponent'
@@ -56,6 +58,25 @@ class App extends Component {
     }
   }
 
+  redo = () =>{
+    console.log(`hasRedo; ${this.tps.hasTransactionToRedo()}`)
+    if(this.tps.hasTransactionToRedo()){
+      console.log('redoing')
+      this.tps.doTransaction();
+      //add check undo and redo
+    }
+    console.log(this.tps.transactions);
+  }
+  undo = () =>{
+    console.log(`hasUndo: ${this.tps.hasTransactionToUndo()}`)
+    if(this.tps.hasTransactionToUndo()){
+      console.log('undoing')
+      this.tps.undoTransaction();
+      //add check undo redo
+    }
+    console.log(this.tps.transactions);
+  }
+
   // WILL LOAD THE SELECTED LIST
   loadToDoList = (toDoList) => {
     console.log("loading " + toDoList);
@@ -96,20 +117,86 @@ class App extends Component {
 
   makeNewToDoListItem = () =>  {
     let newToDoListItem = {
+      id: this.state.nextListItemId, // added not sure tho
       description: "No Description",
       dueDate: "none",
       status: "incomplete"
     };
+    this.setState({
+      nextListItemId: this.state.nextListItemId+1
+    })
     return newToDoListItem;
   }
+
+  addNewListItemToList = () =>{
+    let newItem = this.makeNewToDoListItem();
+    let newInfo = {
+      id : this.state.currentList.id,
+      items : [...this.state.currentList.items,newItem],
+      name: this.state.currentList.name
+    }
+    this.setState({currentList: newInfo},() =>{
+      console.log(this.state.currentList);
+      this.afterToDoListsChangeComplete();
+    });
+    // console.log(this.state.currentList)
+    
+    
+  }
+
+  
 
   // THIS IS A CALLBACK FUNCTION FOR AFTER AN EDIT TO A LIST
   afterToDoListsChangeComplete = () => {
     console.log("App updated currentToDoList: " + this.state.currentList);
-
+    console.log(this.state.currentList);
     // WILL THIS WORK? @todo
-    let toDoListsString = JSON.stringify(this.state.toDoLists);
-    localStorage.setItem("recent_work", toDoListsString);
+    let oldCurrentList = this.state.toDoLists.filter((list) => {
+      return list.id !== this.state.currentList.id;
+    })
+    
+  
+    oldCurrentList.unshift(this.state.currentList);
+
+    this.setState({
+      toDoLists: oldCurrentList
+    },() =>{
+      let toDoListsString = JSON.stringify(this.state.toDoLists);
+      localStorage.setItem("recentLists", toDoListsString);
+      console.log(this.state.toDoLists);
+    })
+  }
+
+  changeNewDescriptionTransaction = (previous_description, new_description,id) => {
+    let transaction = new ChangeTask_Transaction(this,previous_description, new_description,id);
+    this.tps.addTransaction(transaction);
+  }
+
+
+  changeDescription = (id,new_description) =>{
+    let tempList = [...this.state.currentList.items];
+
+    for(let x = 0; x< tempList.length;x++){
+      if(tempList[x].id == id){
+        tempList[x].description = new_description;
+      }
+    }
+
+    let newInfo = {
+      id : this.state.currentList.id,
+      items : [...tempList],
+      name: this.state.currentList.name
+    }
+    
+    this.setState({
+      currentList : newInfo
+    },() =>{
+      console.log('setted currentList');
+      console.log(this.state.currentList);
+      this.afterToDoListsChangeComplete();
+    })
+
+
   }
 
   render() {
@@ -122,7 +209,7 @@ class App extends Component {
           loadToDoListCallback={this.loadToDoList}
           addNewListCallback={this.addNewList}
         />
-        <Workspace toDoListItems={items} />
+        <Workspace currentList= {this.state.currentList} toDoListItems={items} addNewItemToList = {this.addNewListItemToList} undoCallBack = {this.undo} redoCallBack = {this.redo} changeNewDescriptionTransactionCallBack = {this.changeNewDescriptionTransaction}/>
       </div>
     );
   }
