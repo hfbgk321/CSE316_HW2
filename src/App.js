@@ -9,6 +9,7 @@ import ChangeStatus_Transaction from './transactions/ChangeStatus_Transaction';
 import ChangeUp_Transaction from './transactions/ChangeUp_Transaction';
 import ChangeDown_Transaction from './transactions/ChangeDown_Transaction';
 import AddNewItem_Transaction from './transactions/AddNewItem_Transaction';
+import DeleteItem_Transaction from './transactions/DeleteItem_Transaction';
 
 // THESE ARE OUR REACT COMPONENTS
 import Navbar from './components/Navbar'
@@ -150,6 +151,63 @@ class App extends Component {
     }
     this.setState({currentList: newInfo},this.afterToDoListsChangeComplete);
     return newItem;
+  }
+
+  deleteItemTransaction = (item, position) =>{
+    let transaction = new DeleteItem_Transaction(this,item,position);
+    this.tps.addTransaction(transaction);
+  }
+
+  removeItemInPosition = (position) =>{
+    let newCurrList = [];
+    let currList = this.state.currentList.items;
+
+    for(let x = 0; x< currList.length;x++){
+      if(x == position){
+        continue;
+      }else{
+        newCurrList.push(currList[x]);
+      }
+    }
+
+    let newInfo = {
+      id : this.state.currentList.id,
+      items: [...newCurrList],
+      name: this.state.currentList.name
+    }
+
+    this.setState({
+      currentList: newInfo
+    },this.afterToDoListsChangeComplete);
+  }
+
+  addItemToPosition = (item, position) =>{
+    let newCurrList = [];
+
+    let currList = this.state.currentList.items;
+    let found = false;
+    for(let x = 0; x< currList.length;x++){
+      if(x ==  position){
+        newCurrList.push(item);
+        newCurrList.push(currList[x]);
+        found = true;
+      }else{
+        newCurrList.push(currList[x]);
+      }
+    }
+    if(!found){
+      newCurrList.push(item);
+    }
+
+    let newInfo = {
+      id: this.state.currentList.id,
+      items: [...newCurrList],
+      name: this.state.currentList.name
+    }
+
+    this.setState({
+      currentList: newInfo
+    },this.afterToDoListsChangeComplete);
   }
 
 
@@ -402,6 +460,7 @@ class App extends Component {
         changeNewUpPositionTransactionCallBack = {this.changeNewUpPositionTransaction}
         changeNewDownPositionTransactionCallBack ={this.changeNewDownPositionTransaction}
         addNewItemTransactionCallBack = {this.addNewItemTransaction}
+        deleteItemTransactionCallBack ={this.deleteItemTransaction}
         />
       </div>
     );

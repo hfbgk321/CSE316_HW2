@@ -31,6 +31,7 @@ class ToDoItem extends Component {
     componentDidMount = () => {
         // DISPLAY WHERE WE ARE
         console.log("\t\t\tToDoItem " + this.props.toDoListItem.id + " did mount");
+        console.log(`The current pos in the toDoList is ${this.props.positionInList}`)
     }
 
     
@@ -115,6 +116,10 @@ class ToDoItem extends Component {
         this.props.changeNewDownPositionTransactionCallBack(this.props.toDoListItem.id);
     }
 
+    handleDelete = () =>{
+        this.props.deleteItemTransactionCallBack(this.props.toDoListItem,this.props.positionInList);
+    }
+
     render() {
         // DISPLAY WHERE WE ARE
         console.log("\t\t\tToDoItem render");
@@ -138,7 +143,7 @@ class ToDoItem extends Component {
                 <div className='item-col list-controls-col'>
                     <KeyboardArrowUp className='list-item-control todo-button' onClick = {this.handleUp}/>
                     <KeyboardArrowDown className='list-item-control todo-button' onClick = {this.handleDown} />
-                    <Close className='list-item-control todo-button' />
+                    <Close className='list-item-control todo-button' onClick = {this.handleDelete}/>
                     <div className='list-item-control'></div>
         <div className='list-item-control'></div>
                 </div>

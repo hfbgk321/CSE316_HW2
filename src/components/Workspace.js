@@ -52,15 +52,17 @@ class Workspace extends Component {
                     {console.log(this.props)}
                     {
                         
-                        this.props.toDoListItems.map((toDoListItem) => (
+                        this.props.toDoListItems.map((toDoListItem,index) => (
                         <ToDoItem
                             key={toDoListItem.id}
+                            positionInList = {index}
                             toDoListItem={toDoListItem}     // PASS THE ITEM TO THE CHILDREN
                             changeNewDescriptionTransactionCallBack = {this.props.changeNewDescriptionTransactionCallBack}
                             changeNewDueDateTransactionCallBack ={this.props.changeNewDueDateTransactionCallBack}
                             changeNewStatusTransactionCallBack ={this.props.changeNewStatusTransactionCallBack}
                             changeNewUpPositionTransactionCallBack = {this.props.changeNewUpPositionTransactionCallBack}
                             changeNewDownPositionTransactionCallBack = {this.props.changeNewDownPositionTransactionCallBack}
+                            deleteItemTransactionCallBack ={this.props.deleteItemTransactionCallBack}
                         />))
                     }
                 </div>
