@@ -16,7 +16,32 @@ class Workspace extends Component {
             hashRedo: false
         }
 
-        console.log(this.props.toDoListItems)
+        this.checkCTRLZY = this.checkCTRLZY.bind(this);
+    }
+
+
+    componentDidMount(){
+        document.addEventListener("keydown",this.checkCTRLZY,false);
+    }
+
+    componentWillUnmount(){
+        document.removeEventListener("keydown",this.checkCTRLZY,false);
+    }
+
+    checkCTRLZY(event){
+        console.log(event.keyCode);
+
+        if(event.ctrlKey && event.keyCode == 90){
+            console.log('ctrlz');
+            this.props.undoCallBack();
+        }
+
+        if(event.ctrlKey && event.keyCode == 89){
+            console.log('ctrly')
+            this.props.redoCallBack();
+        }
+
+
     }
 
     handleAddNewItem = () => {
@@ -41,7 +66,7 @@ class Workspace extends Component {
                     <div id="date-col-header" className="item-col todo-button">Due Date</div>
                     <div id="status-col-header" className="item-col todo-button">Status</div>
                     <div className="item-col" display="flex" flexdirection="row" flexwrap="nowrap">
-                        <Undo id="undo-button" className="list-item-control material-icons todo-button" onClick ={this.handleUndo}/>
+                        <Undo id="undo-button" className="list-item-control material-icons todo-button"  onClick ={this.handleUndo} />
                         <Redo id="redo-button" className="list-item-control material-icons todo-button"  onClick = {this.handleRedo}/>
                         <AddBox id="add-item-button" className="list-item-control material-icons todo-button" onClick ={this.handleAddNewItem}/>
                         <Delete id="delete-list-button" className="list-item-control material-icons todo-button" />
