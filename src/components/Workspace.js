@@ -10,10 +10,13 @@ import Close from '@material-ui/icons/Close';
 class Workspace extends Component {
     constructor(props) {
         super(props);
+        
         this.state = {
             hasUndo: false,
             hashRedo: false
         }
+
+        console.log(this.props.toDoListItems)
     }
 
     handleAddNewItem = () => {
@@ -46,7 +49,9 @@ class Workspace extends Component {
                     </div>
                 </div>
                 <div id="todo-list-items-div">
+                    {console.log(this.props)}
                     {
+                        
                         this.props.toDoListItems.map((toDoListItem) => (
                         <ToDoItem
                             key={toDoListItem.id}
@@ -54,6 +59,8 @@ class Workspace extends Component {
                             changeNewDescriptionTransactionCallBack = {this.props.changeNewDescriptionTransactionCallBack}
                             changeNewDueDateTransactionCallBack ={this.props.changeNewDueDateTransactionCallBack}
                             changeNewStatusTransactionCallBack ={this.props.changeNewStatusTransactionCallBack}
+                            changeNewUpPositionTransactionCallBack = {this.props.changeNewUpPositionTransactionCallBack}
+                            changeNewDownPositionTransactionCallBack = {this.props.changeNewDownPositionTransactionCallBack}
                         />))
                     }
                 </div>

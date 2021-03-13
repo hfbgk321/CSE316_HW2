@@ -105,6 +105,16 @@ class ToDoItem extends Component {
         }
     }
 
+
+    handleUp = () =>{
+        this.props.changeNewUpPositionTransactionCallBack(this.props.toDoListItem.id);
+    }
+
+
+    handleDown = () =>{
+        this.props.changeNewDownPositionTransactionCallBack(this.props.toDoListItem.id);
+    }
+
     render() {
         // DISPLAY WHERE WE ARE
         console.log("\t\t\tToDoItem render");
@@ -126,8 +136,8 @@ class ToDoItem extends Component {
                 </select>
                 <div className='item-col test-4-col'></div>
                 <div className='item-col list-controls-col'>
-                    <KeyboardArrowUp className='list-item-control todo-button' />
-                    <KeyboardArrowDown className='list-item-control todo-button' />
+                    <KeyboardArrowUp className='list-item-control todo-button' onClick = {this.handleUp}/>
+                    <KeyboardArrowDown className='list-item-control todo-button' onClick = {this.handleDown} />
                     <Close className='list-item-control todo-button' />
                     <div className='list-item-control'></div>
         <div className='list-item-control'></div>

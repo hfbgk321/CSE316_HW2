@@ -6,6 +6,9 @@ import jsTPS from './common/jsTPS.js'
 import ChangeTask_Transaction from './transactions/ChangeTask_Transaction.js'
 import ChangeDueDate_Transaction from './transactions/ChangeDueDate_Transaction';
 import ChangeStatus_Transaction from './transactions/ChangeStatus_Transaction';
+import ChangeUp_Transaction from './transactions/ChangeUp_Transaction';
+import ChangeDown_Transaction from './transactions/ChangeDown_Transaction';
+
 // THESE ARE OUR REACT COMPONENTS
 import Navbar from './components/Navbar'
 import LeftSidebar from './components/LeftSidebar'
@@ -157,6 +160,7 @@ class App extends Component {
 
   // THIS IS A CALLBACK FUNCTION FOR AFTER AN EDIT TO A LIST
   afterToDoListsChangeComplete = () => {
+    let currList = this.state.currentList;
     console.log("App updated currentToDoList: " + this.state.currentList);
     console.log(this.state.currentList);
     // WILL THIS WORK? @todo
@@ -174,6 +178,69 @@ class App extends Component {
       localStorage.setItem("recentLists", toDoListsString);
       console.log(this.state.toDoLists);
     })
+  }
+
+  changeNewDownPositionTransaction = (id) =>{
+    let transaction = new ChangeDown_Transaction(this,id);
+    this.tps.addTransaction(transaction);
+  }
+
+
+  changeNewUpPositionTransaction = (id)  =>{
+    let transaction = new ChangeUp_Transaction(this,id);
+    this.tps.addTransaction(transaction);
+  }
+
+  moveUp = (id) =>{
+
+    //assuming the first and last tasks cant be moved up or down
+    let currList = this.state.currentList.items;
+    for(let x  = 0; x< currList.length;x++){
+      if(x == 0 && currList[x].id == id) break;
+      if(currList[x].id == id){
+        let tempItem =  currList[x];
+        currList[x] = currList[x-1];
+        currList[x-1] = tempItem;
+        break;
+      }
+    }
+
+    let newInfo = {
+      id : this.state.currentList.id,
+      items : [...currList],
+      name: this.state.currentList.name
+    }
+    
+
+    this.setState({
+      currentList : newInfo
+    },() =>{
+      console.log(this.state.currentList);
+      this.afterToDoListsChangeComplete();
+    });
+  }
+
+  moveDown = (id) =>{
+    //assuming the first and last tasks cant be moved up or down
+    let currList = this.state.currentList.items;
+    for(let x  = 0; x< currList.length;x++){
+      if(x == currList.length-1 && currList[x].id == id) break;
+      if(currList[x].id == id){
+        let tempItem =  currList[x];
+        currList[x] = currList[x+1];
+        currList[x+1] = tempItem;
+        break;
+      }
+    }
+
+    let newInfo = {
+      id : this.state.currentList.id,
+      items : [...currList],
+      name: this.state.currentList.name
+    }
+    this.setState({
+      currentList : newInfo
+    },this.afterToDoListsChangeComplete());
   }
 
   changeNewStatusTransaction = (previous_status, new_status, id) =>{
@@ -209,6 +276,10 @@ class App extends Component {
       this.afterToDoListsChangeComplete();
     })
   }
+
+  
+
+
   changeNewDueDateTransaction = (previous_duedate, new_duedate, id) => {
     let transaction = new ChangeDueDate_Transaction(this, previous_duedate,new_duedate,id);
     this.tps.addTransaction(transaction);
@@ -281,6 +352,7 @@ class App extends Component {
 
   render() {
     let items = this.state.currentList.items;
+    console.log(items);
     return (
       <div id="root">
         <Navbar />
@@ -296,6 +368,8 @@ class App extends Component {
         changeNewDescriptionTransactionCallBack = {this.changeNewDescriptionTransaction}
         changeNewDueDateTransactionCallBack = {this.changeNewDueDateTransaction}
         changeNewStatusTransactionCallBack = {this.changeNewStatusTransaction}
+        changeNewUpPositionTransactionCallBack = {this.changeNewUpPositionTransaction}
+        changeNewDownPositionTransactionCallBack ={this.changeNewDownPositionTransaction}
         />
       </div>
     );
