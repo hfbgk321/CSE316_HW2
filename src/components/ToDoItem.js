@@ -19,21 +19,10 @@ class ToDoItem extends Component {
             status: this.props.toDoListItem.status,
             date: this.props.toDoListItem.due_date
         }
+
         this.hiddenDescriptionRef = React.createRef(); //used to focus onto the description input 
         this.hiddenDateRef = React.createRef(); // used to focus onto the date
         this.hiddenStatusRef = React.createRef(); // used to focus onto the status
-
-        this.handleDescriptionClick = this.handleDescriptionClick.bind(this); // bind handlers as this might be refering to something else
-        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-        this.handleDescriptionBlur = this.handleDescriptionBlur.bind(this);
-
-        this.handleDateClick = this.handleDateClick.bind(this);
-        this.handleDateChange = this.handleDateChange.bind(this);
-        this.handleDateBlur = this.handleDateBlur.bind(this);
-
-        this.handleStatusClick = this.handleStatusClick.bind(this);
-        this.handleStatusChange = this.handleStatusChange.bind(this);
-        this.handleStatusBlur = this.handleStatusBlur.bind(this);
 
         // DISPLAY WHERE WE ARE
         console.log("\t\t\tToDoItem " + this.props.toDoListItem.id + " constructor");
@@ -44,7 +33,19 @@ class ToDoItem extends Component {
         console.log("\t\t\tToDoItem " + this.props.toDoListItem.id + " did mount");
     }
 
+    
+    // resetProps = () =>{
+    //     this.setState({
+    //         description: this.props.toDoListItem.description,
+    //         status: this.props.toDoListItem.status,
+    //         date: this.props.toDoListItem.due_date
+    //     })
+    // }
+    
+
     componentDidUpdate = () =>{
+        console.log('updated');
+        console.log(this.state.description);
         if(this.hiddenDescriptionRef.current !==null){ //checks to see if the hidden inputs have appeared
             this.hiddenDescriptionRef.current.focus();
         }
@@ -108,11 +109,11 @@ class ToDoItem extends Component {
 
         return (
             <div id={'todo-list-item-' + listItem.id} className='list-item-card'>
-                <div className='item-col task-col' onClick ={this.handleDescriptionClick} style ={{display:this.state.displayDescription}}>{this.state.description}</div>
+                <div className='item-col task-col' onClick ={this.handleDescriptionClick} style ={{display:this.state.displayDescription}}>{this.props.toDoListItem.description}</div>
                 <input type = "text" name ="hidden_description_input" value = {this.state.description} onChange = {this.handleDescriptionChange} style ={{display:this.state.hiddenDescription}} onBlur ={this.handleDescriptionBlur} ref = {this.hiddenDescriptionRef}/>
-                <div className='item-col due-date-col' onClick ={this.handleDateClick} style = {{display:this.state.displayDate}}>{this.state.date}</div>
+                <div className='item-col due-date-col' onClick ={this.handleDateClick} style = {{display:this.state.displayDate}}>{this.props.toDoListItem.due_date}</div>
                 <input type ="date" name = "hidden_date_input" value ={this.state.date} style ={{display: this.state.hiddenDate}} onChange ={this.handleDateChange} onBlur = {this.handleDateBlur} ref = {this.hiddenDateRef}/>
-                <div className='item-col status-col' className={statusType} onClick = {this.handleStatusClick} style = {{display:this.state.displayStatus,color : this.state.status == 'complete' ? "#7CC0FB" : "#EDCE42" }}>{this.state.status}</div>
+                <div className='item-col status-col' className={statusType} onClick = {this.handleStatusClick} style = {{display:this.state.displayStatus,color : this.state.status == 'complete' ? "#7CC0FB" : "#EDCE42" }}>{this.props.toDoListItem.status}</div>
                 <select onChange = {this.handleStatusChange} onBlur ={this.handleStatusBlur} style = {{display:this.state.hiddenStatus}} ref = {this.hiddenStatusRef} value ={this.state.status}>
                     <option value = "complete">complete</option>
                     <option value = "incomplete">incomplete</option>

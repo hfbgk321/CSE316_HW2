@@ -174,11 +174,14 @@ class App extends Component {
 
 
   changeDescription = (id,new_description) =>{
-    let tempList = [...this.state.currentList.items];
-
-    for(let x = 0; x< tempList.length;x++){
-      if(tempList[x].id == id){
-        tempList[x].description = new_description;
+    let tempList = [];
+    let currItems = this.state.currentList.items;
+    for(let x = 0; x< currItems.length;x++){
+      if(currItems[x].id == id){
+        currItems[x].description = new_description;
+        tempList.push(currItems[x]);
+      }else{
+        tempList.push(currItems[x]);
       }
     }
 
@@ -188,6 +191,7 @@ class App extends Component {
       name: this.state.currentList.name
     }
     
+
     this.setState({
       currentList : newInfo
     },() =>{
