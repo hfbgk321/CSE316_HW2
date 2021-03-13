@@ -13,7 +13,6 @@ export default class ChangeTask_Transaction extends jsTPS_Transaction{
   }
 
   doTransaction(){
-    console.log('doing this transaction');
    this.app.changeDescription(this.item_id,this.new_description);
   }
 

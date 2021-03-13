@@ -29,15 +29,14 @@ class Workspace extends Component {
     }
 
     checkCTRLZY(event){
-        console.log(event.keyCode);
 
         if(event.ctrlKey && event.keyCode == 90){
-            console.log('ctrlz');
+            // console.log('ctrlz');
             this.props.undoCallBack();
         }
 
         if(event.ctrlKey && event.keyCode == 89){
-            console.log('ctrly')
+            // console.log('ctrly')
             this.props.redoCallBack();
         }
 
@@ -74,7 +73,6 @@ class Workspace extends Component {
                     </div>
                 </div>
                 <div id="todo-list-items-div">
-                    {console.log(this.props)}
                     {
                         
                         this.props.toDoListItems.map((toDoListItem,index) => (

@@ -26,14 +26,14 @@ class App extends Component {
     super(props);
 
     // DISPLAY WHERE WE ARE
-    console.log("App constructor");
+    // console.log("App constructor");
 
     // MAKE OUR TRANSACTION PROCESSING SYSTEM
     this.tps = new jsTPS();
 
     // CHECK TO SEE IF THERE IS DATA IN LOCAL STORAGE FOR THIS APP
     let recentLists = localStorage.getItem("recentLists");
-    console.log("recentLists: " + recentLists);
+    // console.log("recentLists: " + recentLists);
     if (!recentLists) {
       recentLists = JSON.stringify(testData.toDoLists);
       localStorage.setItem("toDoLists", recentLists);
@@ -68,7 +68,6 @@ class App extends Component {
   redo = () =>{
     // console.log(`hasRedo; ${this.tps.hasTransactionToRedo()}`)
     if(this.tps.hasTransactionToRedo()){
-      console.log('redoing')
       this.tps.doTransaction();
       //add check undo and redo
     }
@@ -81,7 +80,6 @@ class App extends Component {
   undo = () =>{
     // console.log(`hasUndo: ${this.tps.hasTransactionToUndo()}`)
     if(this.tps.hasTransactionToUndo()){
-      console.log('undoing')
       this.tps.undoTransaction();
       //add check undo redo
     }
@@ -93,7 +91,7 @@ class App extends Component {
 
   // WILL LOAD THE SELECTED LIST
   loadToDoList = (toDoList) => {
-    console.log("loading " + toDoList);
+    // console.log("loading " + toDoList);
 
     // MAKE SURE toDoList IS AT THE TOP OF THE STACK BY REMOVING THEN PREPENDING
     const nextLists = this.state.toDoLists.filter(testList =>
@@ -259,8 +257,8 @@ class App extends Component {
   // THIS IS A CALLBACK FUNCTION FOR AFTER AN EDIT TO A LIST
   afterToDoListsChangeComplete = () => {
     let currList = this.state.currentList;
-    console.log("App updated currentToDoList: " + this.state.currentList);
-    console.log(this.state.currentList);
+    // console.log("App updated currentToDoList: " + this.state.currentList);
+    // console.log(this.state.currentList);
     // WILL THIS WORK? @todo
     let oldCurrentList = this.state.toDoLists.filter((list) => {
       return list.id !== this.state.currentList.id;
@@ -274,8 +272,18 @@ class App extends Component {
     },() =>{
       let toDoListsString = JSON.stringify(this.state.toDoLists);
       localStorage.setItem("recentLists", toDoListsString);
-      console.log(this.state.toDoLists);
+      // console.log(this.state.toDoLists);
     })
+  }
+
+
+  changeCurrentListName = (new_name) =>{
+    let currList = this.state.currentList;
+    currList.name = new_name;
+
+    this.setState({
+      currentList:currList
+    },this.afterToDoListsChangeComplete);
   }
 
   changeNewDownPositionTransaction = (id) =>{
@@ -362,8 +370,8 @@ class App extends Component {
       items : [...tempList],
       name: this.state.currentList.name
     }
-    console.log('heres the new info');
-    console.log(newInfo);
+    // console.log('heres the new info');
+    // console.log(newInfo);
     
 
     this.setState({
@@ -398,8 +406,8 @@ class App extends Component {
       items : [...tempList],
       name: this.state.currentList.name
     }
-    console.log('heres the new info');
-    console.log(newInfo);
+    // console.log('heres the new info');
+    // console.log(newInfo);
     
 
     this.setState({
@@ -441,7 +449,7 @@ class App extends Component {
 
   render() {
     let items = this.state.currentList.items;
-    console.log(items);
+    // console.log(items);
     return (
       <div id="root">
         <Navbar />
@@ -449,6 +457,7 @@ class App extends Component {
           toDoLists={this.state.toDoLists}
           loadToDoListCallback={this.loadToDoList}
           addNewListCallback={this.addNewList}
+          changeCurrentListNameCallBack ={this.changeCurrentListName}
         />
         <Workspace 
         currentList= {this.state.currentList} 

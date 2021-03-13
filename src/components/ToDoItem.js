@@ -25,7 +25,7 @@ class ToDoItem extends Component {
         this.hiddenStatusRef = React.createRef(); // used to focus onto the status
 
         // DISPLAY WHERE WE ARE
-        console.log("\t\t\tToDoItem " + this.props.toDoListItem.id + " constructor");
+        // console.log("\t\t\tToDoItem " + this.props.toDoListItem.id + " constructor");
     }
 
     componentDidMount = () => {
@@ -45,8 +45,6 @@ class ToDoItem extends Component {
     
 
     componentDidUpdate = () =>{
-        console.log('updated');
-        console.log(this.state.description);
         if(this.hiddenDescriptionRef.current !==null){ //checks to see if the hidden inputs have appeared
             this.hiddenDescriptionRef.current.focus();
         }
@@ -60,7 +58,6 @@ class ToDoItem extends Component {
 
 
     handleDescriptionClick = () =>{
-        console.log(`Clicked description with id: ${this.props.toDoListItem.id}`); //handles when user clicks on the description part
         this.setState({hiddenDescription :"block",displayDescription:"none"});
     }
     handleDescriptionChange = (event) =>{
@@ -76,11 +73,9 @@ class ToDoItem extends Component {
 
 
     handleDateClick = () =>{
-        console.log(`Clicked date with id: ${this.props.toDoListItem.id}`); //handles when the user clicks the date part
         this.setState({displayDate:"none",hiddenDate:"block"});
     }
     handleDateChange = (event) =>{
-        console.log(event.target.value);
         this.setState({date:event.target.value}); //handles when user changes the date part
     }
     handleDateBlur = () =>{
@@ -92,11 +87,9 @@ class ToDoItem extends Component {
 
 
     handleStatusClick = () =>{
-        console.log(`Clicked status with id: ${this.props.toDoListItem.id}`); // handles whent he user clicks the status part
         this.setState({displayStatus:"none",hiddenStatus:"block"});
     }
     handleStatusChange = (event) =>{
-        console.log(event.target.value);
         this.setState({status : event.target.value});
     }
     handleStatusBlur = () =>{
