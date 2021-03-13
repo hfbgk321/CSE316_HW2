@@ -20,7 +20,7 @@ class Workspace extends Component {
     }
 
     handleAddNewItem = () => {
-        this.setState(this.props.addNewItemToList());
+        this.props.addNewItemTransactionCallBack();
     }
 
     handleUndo = () =>{

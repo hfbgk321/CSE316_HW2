@@ -8,6 +8,7 @@ import ChangeDueDate_Transaction from './transactions/ChangeDueDate_Transaction'
 import ChangeStatus_Transaction from './transactions/ChangeStatus_Transaction';
 import ChangeUp_Transaction from './transactions/ChangeUp_Transaction';
 import ChangeDown_Transaction from './transactions/ChangeDown_Transaction';
+import AddNewItem_Transaction from './transactions/AddNewItem_Transaction';
 
 // THESE ARE OUR REACT COMPONENTS
 import Navbar from './components/Navbar'
@@ -147,13 +148,52 @@ class App extends Component {
       items : [...this.state.currentList.items,newItem],
       name: this.state.currentList.name
     }
-    this.setState({currentList: newInfo},() =>{
-      console.log(this.state.currentList);
-      this.afterToDoListsChangeComplete();
-    });
-    // console.log(this.state.currentList)
-    
-    
+    this.setState({currentList: newInfo},this.afterToDoListsChangeComplete);
+    return newItem;
+  }
+
+
+  addNewItemTransaction = () =>{
+    let transaction = new AddNewItem_Transaction(this);
+    this.tps.addTransaction(transaction);
+  }
+
+  addItemToList = (item) =>{
+    let currList = this.state.currentList.items;
+    currList.push(item);
+
+    let newInfo = {
+      id: this.state.currentList.id,
+      items: [...currList],
+      name: this.state.currentList.name
+    }
+
+    this.setState({
+      currentList: newInfo
+    },this.afterToDoListsChangeComplete)
+  }
+
+  removeItemFromList = (id) =>{
+    let newCurrList = [];
+    let currList = this.state.currentList.items;
+
+    for(let x = 0; x< currList.length;x++){
+      if(currList[x].id == id){
+        continue;
+      }else{
+        newCurrList.push(currList[x]);
+      }
+    }
+
+    let newInfo = {
+      id: this.state.currentList.id,
+      items: [...newCurrList],
+      name: this.state.currentList.name
+    }
+
+    this.setState({
+      currentList: newInfo
+    },this.afterToDoListsChangeComplete)
   }
 
   
@@ -214,10 +254,8 @@ class App extends Component {
 
     this.setState({
       currentList : newInfo
-    },() =>{
-      console.log(this.state.currentList);
-      this.afterToDoListsChangeComplete();
-    });
+    },
+      this.afterToDoListsChangeComplete);
   }
 
   moveDown = (id) =>{
@@ -240,7 +278,7 @@ class App extends Component {
     }
     this.setState({
       currentList : newInfo
-    },this.afterToDoListsChangeComplete());
+    },this.afterToDoListsChangeComplete);
   }
 
   changeNewStatusTransaction = (previous_status, new_status, id) =>{
@@ -272,9 +310,8 @@ class App extends Component {
 
     this.setState({
       currentList : newInfo
-    },() =>{
-      this.afterToDoListsChangeComplete();
-    })
+    },
+      this.afterToDoListsChangeComplete)
   }
 
   
@@ -309,9 +346,8 @@ class App extends Component {
 
     this.setState({
       currentList : newInfo
-    },() =>{
-      this.afterToDoListsChangeComplete();
-    })
+    },
+      this.afterToDoListsChangeComplete)
   }
 
   changeNewDescriptionTransaction = (previous_description, new_description,id) => {
@@ -341,13 +377,8 @@ class App extends Component {
 
     this.setState({
       currentList : newInfo
-    },() =>{
-      console.log('setted currentList');
-      console.log(this.state.currentList);
-      this.afterToDoListsChangeComplete();
-    })
-
-
+    },
+      this.afterToDoListsChangeComplete)
   }
 
   render() {
@@ -370,6 +401,7 @@ class App extends Component {
         changeNewStatusTransactionCallBack = {this.changeNewStatusTransaction}
         changeNewUpPositionTransactionCallBack = {this.changeNewUpPositionTransaction}
         changeNewDownPositionTransactionCallBack ={this.changeNewDownPositionTransaction}
+        addNewItemTransactionCallBack = {this.addNewItemTransaction}
         />
       </div>
     );

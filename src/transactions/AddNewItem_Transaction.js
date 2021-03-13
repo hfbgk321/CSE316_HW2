@@ -2,22 +2,22 @@ import {jsTPS_Transaction} from '../common/jsTPS.js';
 
 
 export default class AddNewItem_Transaction extends jsTPS_Transaction{
-  constructor(currentList){
+  constructor(intitApp){
     super();
-    // this.currentList = currentList;
+    this.app = intitApp;
 
   }
 
   doTransaction(){
-    // if(this.itemAdded!=null){
-    //   this.currentList.items.push(this.itemAdded);
-    //   //some sort of callback
-    // }else{
-    //   //call the add new item function
-    // }
+    debugger;
+    if(this.itemAdded!=null){
+      this.app.addItemToList(this.itemAdded);
+    }else{
+      this.itemAdded = this.app.addNewListItemToList();
+    }
   }
 
   undoTransaction(){
-    //removing item from the list
+      this.app.removeItemFromList(this.itemAdded.id);
   }
 }
