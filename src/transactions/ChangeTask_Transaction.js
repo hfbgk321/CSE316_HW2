@@ -10,7 +10,6 @@ export default class ChangeTask_Transaction extends jsTPS_Transaction{
     this.previous_description = previous_description;
     this.new_description = new_description;
     this.item_id = item_id;
-
   }
 
   doTransaction(){

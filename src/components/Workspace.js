@@ -10,18 +10,24 @@ import Close from '@material-ui/icons/Close';
 class Workspace extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            hasUndo: false,
+            hashRedo: false
+        }
     }
 
     handleAddNewItem = () => {
-        this.props.addNewItemToList();
+        this.setState(this.props.addNewItemToList());
     }
 
     handleUndo = () =>{
-        this.props.undoCallBack();
+        let undoRedoInfo = this.props.undoCallBack();
+        this.setState({hasUndo: undoRedoInfo.hasUndo, hasRedo: undoRedoInfo.hasRedo});
     }
 
     handleRedo = () =>{
-        this.props.redoCallBack();
+        let undoRedoInfo = this.props.redoCallBack();
+        this.setState({hasUndo: undoRedoInfo.hasUndo, hasRedo: undoRedoInfo.hasRedo});
     }
 
     render() {
@@ -33,7 +39,7 @@ class Workspace extends Component {
                     <div id="status-col-header" className="item-col todo-button">Status</div>
                     <div className="item-col" display="flex" flexdirection="row" flexwrap="nowrap">
                         <Undo id="undo-button" className="list-item-control material-icons todo-button" onClick ={this.handleUndo}/>
-                        <Redo id="redo-button" className="list-item-control material-icons todo-button" onClick = {this.handleRedo}/>
+                        <Redo id="redo-button" className="list-item-control material-icons todo-button"  onClick = {this.handleRedo}/>
                         <AddBox id="add-item-button" className="list-item-control material-icons todo-button" onClick ={this.handleAddNewItem}/>
                         <Delete id="delete-list-button" className="list-item-control material-icons todo-button" />
                         <Close id="close-list-button" className="list-item-control material-icons todo-button" />
@@ -46,6 +52,8 @@ class Workspace extends Component {
                             key={toDoListItem.id}
                             toDoListItem={toDoListItem}     // PASS THE ITEM TO THE CHILDREN
                             changeNewDescriptionTransactionCallBack = {this.props.changeNewDescriptionTransactionCallBack}
+                            changeNewDueDateTransactionCallBack ={this.props.changeNewDueDateTransactionCallBack}
+                            changeNewStatusTransactionCallBack ={this.props.changeNewStatusTransactionCallBack}
                         />))
                     }
                 </div>

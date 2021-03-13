@@ -4,11 +4,13 @@ import testData from './test/testData.json'
 import jsTPS from './common/jsTPS.js'
 
 import ChangeTask_Transaction from './transactions/ChangeTask_Transaction.js'
+import ChangeDueDate_Transaction from './transactions/ChangeDueDate_Transaction';
+import ChangeStatus_Transaction from './transactions/ChangeStatus_Transaction';
 // THESE ARE OUR REACT COMPONENTS
 import Navbar from './components/Navbar'
 import LeftSidebar from './components/LeftSidebar'
 import Workspace from './components/Workspace'
-import { LinkTwoTone } from '@material-ui/icons';
+
 {/*import ItemsListHeaderComponent from './components/ItemsListHeaderComponent'
 import ItemsListComponent from './components/ItemsListComponent'
 import ListsComponent from './components/ListsComponent'
@@ -59,22 +61,29 @@ class App extends Component {
   }
 
   redo = () =>{
-    console.log(`hasRedo; ${this.tps.hasTransactionToRedo()}`)
+    // console.log(`hasRedo; ${this.tps.hasTransactionToRedo()}`)
     if(this.tps.hasTransactionToRedo()){
       console.log('redoing')
       this.tps.doTransaction();
       //add check undo and redo
     }
-    console.log(this.tps.transactions);
+    // console.log(this.tps.transactions);
+    return {
+      hasRedo:this.tps.hasTransactionToRedo(),
+      hasUndo: this.tps.hasTransactionToUndo()
+    }
   }
   undo = () =>{
-    console.log(`hasUndo: ${this.tps.hasTransactionToUndo()}`)
+    // console.log(`hasUndo: ${this.tps.hasTransactionToUndo()}`)
     if(this.tps.hasTransactionToUndo()){
       console.log('undoing')
       this.tps.undoTransaction();
       //add check undo redo
     }
-    console.log(this.tps.transactions);
+    return {
+      hasRedo:this.tps.hasTransactionToRedo(),
+      hasUndo: this.tps.hasTransactionToUndo()
+    }
   }
 
   // WILL LOAD THE SELECTED LIST
@@ -167,6 +176,73 @@ class App extends Component {
     })
   }
 
+  changeNewStatusTransaction = (previous_status, new_status, id) =>{
+    let transaction = new ChangeStatus_Transaction(this, previous_status,new_status, id);
+    this.tps.addTransaction(transaction);
+  }
+
+
+  changeStatus =(id, new_status) => {
+    let tempList = [];
+    let currItems = this.state.currentList.items;
+    for(let x = 0; x< currItems.length;x++){
+      if(currItems[x].id == id){
+        currItems[x].status = new_status;
+        tempList.push(currItems[x]);
+      }else{
+        tempList.push(currItems[x]);
+      }
+    }
+
+    let newInfo = {
+      id : this.state.currentList.id,
+      items : [...tempList],
+      name: this.state.currentList.name
+    }
+    console.log('heres the new info');
+    console.log(newInfo);
+    
+
+    this.setState({
+      currentList : newInfo
+    },() =>{
+      this.afterToDoListsChangeComplete();
+    })
+  }
+  changeNewDueDateTransaction = (previous_duedate, new_duedate, id) => {
+    let transaction = new ChangeDueDate_Transaction(this, previous_duedate,new_duedate,id);
+    this.tps.addTransaction(transaction);
+  }
+
+  changeDueDate = (id, new_duedate) => {
+    debugger;
+    let tempList = [];
+    let currItems = this.state.currentList.items;
+    for(let x = 0; x< currItems.length;x++){
+      if(currItems[x].id == id){
+        currItems[x].due_date = new_duedate;
+        tempList.push(currItems[x]);
+      }else{
+        tempList.push(currItems[x]);
+      }
+    }
+
+    let newInfo = {
+      id : this.state.currentList.id,
+      items : [...tempList],
+      name: this.state.currentList.name
+    }
+    console.log('heres the new info');
+    console.log(newInfo);
+    
+
+    this.setState({
+      currentList : newInfo
+    },() =>{
+      this.afterToDoListsChangeComplete();
+    })
+  }
+
   changeNewDescriptionTransaction = (previous_description, new_description,id) => {
     let transaction = new ChangeTask_Transaction(this,previous_description, new_description,id);
     this.tps.addTransaction(transaction);
@@ -213,7 +289,14 @@ class App extends Component {
           loadToDoListCallback={this.loadToDoList}
           addNewListCallback={this.addNewList}
         />
-        <Workspace currentList= {this.state.currentList} toDoListItems={items} addNewItemToList = {this.addNewListItemToList} undoCallBack = {this.undo} redoCallBack = {this.redo} changeNewDescriptionTransactionCallBack = {this.changeNewDescriptionTransaction}/>
+        <Workspace 
+        currentList= {this.state.currentList} 
+        toDoListItems={items} addNewItemToList = {this.addNewListItemToList} 
+        undoCallBack = {this.undo} redoCallBack = {this.redo} 
+        changeNewDescriptionTransactionCallBack = {this.changeNewDescriptionTransaction}
+        changeNewDueDateTransactionCallBack = {this.changeNewDueDateTransaction}
+        changeNewStatusTransactionCallBack = {this.changeNewStatusTransaction}
+        />
       </div>
     );
   }

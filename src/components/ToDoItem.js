@@ -67,7 +67,7 @@ class ToDoItem extends Component {
     }
     handleDescriptionBlur = () =>{
         this.setState({hiddenDescription: "none",displayDescription:"block"}); //handles when user unselects the 
-        if(this.props.description != this.state.description){
+        if(this.props.toDoListItem.description != this.state.description){
             this.props.changeNewDescriptionTransactionCallBack(this.props.toDoListItem.description, this.state.description,this.props.toDoListItem.id);
         }
     }
@@ -84,6 +84,9 @@ class ToDoItem extends Component {
     }
     handleDateBlur = () =>{
         this.setState({hiddenDate: "none",displayDate:"block"}); //handles when user unclicks the date part
+        if(this.props.toDoListItem.due_date != this.state.date){
+            this.props.changeNewDueDateTransactionCallBack(this.props.toDoListItem.due_date,this.state.date,this.props.toDoListItem.id);
+        }
     }
 
 
@@ -97,6 +100,9 @@ class ToDoItem extends Component {
     }
     handleStatusBlur = () =>{
         this.setState({hiddenStatus:"none",displayStatus:"block"});
+        if(this.props.toDoListItem.status != this.state.status){
+            this.props.changeNewStatusTransactionCallBack(this.props.toDoListItem.status,this.state.status,this.props.toDoListItem.id);
+        }
     }
 
     render() {
@@ -113,7 +119,7 @@ class ToDoItem extends Component {
                 <input type = "text" name ="hidden_description_input" value = {this.state.description} onChange = {this.handleDescriptionChange} style ={{display:this.state.hiddenDescription}} onBlur ={this.handleDescriptionBlur} ref = {this.hiddenDescriptionRef}/>
                 <div className='item-col due-date-col' onClick ={this.handleDateClick} style = {{display:this.state.displayDate}}>{this.props.toDoListItem.due_date}</div>
                 <input type ="date" name = "hidden_date_input" value ={this.state.date} style ={{display: this.state.hiddenDate}} onChange ={this.handleDateChange} onBlur = {this.handleDateBlur} ref = {this.hiddenDateRef}/>
-                <div className='item-col status-col' className={statusType} onClick = {this.handleStatusClick} style = {{display:this.state.displayStatus,color : this.state.status == 'complete' ? "#7CC0FB" : "#EDCE42" }}>{this.props.toDoListItem.status}</div>
+                <div className='item-col status-col' className={statusType} onClick = {this.handleStatusClick} style = {{display:this.state.displayStatus,color : this.props.toDoListItem.status == 'complete' ? "#7CC0FB" : "#EDCE42" }}>{this.props.toDoListItem.status}</div>
                 <select onChange = {this.handleStatusChange} onBlur ={this.handleStatusBlur} style = {{display:this.state.hiddenStatus}} ref = {this.hiddenStatusRef} value ={this.state.status}>
                     <option value = "complete">complete</option>
                     <option value = "incomplete">incomplete</option>
