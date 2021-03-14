@@ -7,16 +7,20 @@ import AddBox from '@material-ui/icons/AddBox';
 import Delete from '@material-ui/icons/Delete';
 import Close from '@material-ui/icons/Close';
 
+import Modal from './Modal';
+
 class Workspace extends Component {
     constructor(props) {
         super(props);
         
         this.state = {
             hasUndo: false,
-            hashRedo: false
+            hashRedo: false,
+            visibleModal : false,
         }
 
         this.checkCTRLZY = this.checkCTRLZY.bind(this);
+        
     }
 
 
@@ -57,6 +61,30 @@ class Workspace extends Component {
         this.setState({hasUndo: undoRedoInfo.hasUndo, hasRedo: undoRedoInfo.hasRedo});
     }
 
+    handleCloseList = () =>{
+        this.props.exitCurrentListCallBack();
+    }
+
+    handleTriggerModal = () =>{
+        
+        this.setState({visibleModal : true},() =>{
+            console.log('triggering modal');
+            console.log(this.state.visibleModal);
+        });
+    }
+
+    showModal = () =>{
+        this.setState({
+            visibleModal: !this.state.visibleModal
+        })
+    }
+
+    handleDeleteList = () =>{
+        console.log('deleting list');
+        this.showModal();
+        this.props.deleteCurrentListCallBack();
+    }
+
     render() {
         return (
             <div id="workspace">
@@ -68,13 +96,13 @@ class Workspace extends Component {
                         <Undo id="undo-button" className="list-item-control material-icons todo-button"  onClick ={this.handleUndo} />
                         <Redo id="redo-button" className="list-item-control material-icons todo-button"  onClick = {this.handleRedo}/>
                         <AddBox id="add-item-button" className="list-item-control material-icons todo-button" onClick ={this.handleAddNewItem}/>
-                        <Delete id="delete-list-button" className="list-item-control material-icons todo-button" />
-                        <Close id="close-list-button" className="list-item-control material-icons todo-button" />
+                        <Delete id="delete-list-button" className="list-item-control material-icons todo-button" onClick = {this.handleTriggerModal}/>
+                        <Close id="close-list-button" className="list-item-control material-icons todo-button" onClick = {this.handleCloseList}/>
                     </div>
                 </div>
                 <div id="todo-list-items-div">
+                    <Modal visible = {this.state.visibleModal} onClose = {this.showModal} onDelete = {this.handleDeleteList}/>
                     {
-                        
                         this.props.toDoListItems.map((toDoListItem,index) => (
                         <ToDoItem
                             key={toDoListItem.id}

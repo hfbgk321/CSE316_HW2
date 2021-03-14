@@ -118,6 +118,10 @@ class App extends Component {
     }, this.afterToDoListsChangeComplete);
   }
 
+  exitCurrentList = () =>{
+    this.setState({currentList: {items: []}});
+  }
+
   makeNewToDoList = () => {
     let newToDoList = {
       id: this.state.nextListId,
@@ -276,6 +280,20 @@ class App extends Component {
     })
   }
 
+  deleteCurrentList = () =>{
+    let newTodoLists = this.state.toDoLists.filter((list) =>{
+      return list.id != this.state.currentList.id;
+    })
+
+    this.setState({
+      currentList: {items: []},
+      toDoLists: newTodoLists
+    },() =>{
+      let newToDoListsData = JSON.stringify(this.state.toDoLists);
+      localStorage.setItem("recentLists",newToDoListsData);
+    })
+  }
+
 
   changeCurrentListName = (new_name) =>{
     let currList = this.state.currentList;
@@ -380,9 +398,6 @@ class App extends Component {
       this.afterToDoListsChangeComplete)
   }
 
-  
-
-
   changeNewDueDateTransaction = (previous_duedate, new_duedate, id) => {
     let transaction = new ChangeDueDate_Transaction(this, previous_duedate,new_duedate,id);
     this.tps.addTransaction(transaction);
@@ -470,6 +485,8 @@ class App extends Component {
         changeNewDownPositionTransactionCallBack ={this.changeNewDownPositionTransaction}
         addNewItemTransactionCallBack = {this.addNewItemTransaction}
         deleteItemTransactionCallBack ={this.deleteItemTransaction}
+        exitCurrentListCallBack = {this.exitCurrentList}
+        deleteCurrentListCallBack = {this.deleteCurrentList}
         />
       </div>
     );

@@ -9,7 +9,6 @@ export default class AddNewItem_Transaction extends jsTPS_Transaction{
   }
 
   doTransaction(){
-    debugger;
     if(this.itemAdded!=null){
       this.app.addItemToList(this.itemAdded);
     }else{
