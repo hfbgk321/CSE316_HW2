@@ -104,71 +104,33 @@
 }
 
 .item-col {
-  width: 25%;
+  width: 30%;
+}
+
+.date-col{
+  margin-left:9rem;
+  margin-right:12rem;
+}
+
+.hidden-item-col{
+  width:30%;
+  margin-top: -1rem;
+  background-color: #42444D;
+  color: white;
+}
+
+.hidden-item-col-select{
+  width:30%;
+  margin-top: -1rem;
+  margin-left:0;
+  background-color: #42444D;
+  color:white;
 }
 
 .list-controls-col {
-  /*display: flex;
-    flex-direction: row; 
-    flex-wrap: nowrap;*/
+  margin-right: 10rem;
 }
 
 .list-item-control {
   width: 20%;
-}
-
-/*Modal Code*/
-
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  background-color: rgb(182, 24, 24); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-}
-
-.modal-footer {
-  display: flex;
-}
-.child {
-  flex: 1;
-}
-
-.cancel:hover,
-.confirm:hover {
-  background-color: #4e4f58;
-  cursor: pointer;
-}
-
-/* Modal Content/Box */
-.modal-content {
-  text-align: center;
-  background-color: #000000;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 1.5rem;
-  border: 1px solid #888;
-  width: 30%; /* Could be more or less, depending on screen size */
-}
-
-.highlight {
-  background-color: #ffc819 !important;
-}
-
-/* The Close Button */
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: #4e4f58;
-  text-decoration: none;
-  cursor: pointer;
 }

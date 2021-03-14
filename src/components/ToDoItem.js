@@ -17,7 +17,8 @@ class ToDoItem extends Component {
             displayDate:"block",
             description: this.props.toDoListItem.description,
             status: this.props.toDoListItem.status,
-            date: this.props.toDoListItem.due_date
+            date: this.props.toDoListItem.due_date,
+            hover: false
         }
 
         this.hiddenDescriptionRef = React.createRef(); //used to focus onto the description input 
@@ -114,6 +115,10 @@ class ToDoItem extends Component {
         this.props.deleteItemTransactionCallBack(this.props.toDoListItem,this.props.positionInList);
     }
 
+    toggleHover = () =>{
+        this.setState({hover: !this.state.hover});
+    }
+
     render() {
         // DISPLAY WHERE WE ARE
         console.log("\t\t\tToDoItem render");
@@ -121,15 +126,21 @@ class ToDoItem extends Component {
         let statusType = "status-complete";
         if (listItem.status === "incomplete")
             statusType = "status-incomplete";
+        let hoverStyle;
+        if(this.state.hover){
+            hoverStyle = {backgroundColor: "#4E4F58",cursor:'pointer'};
+        }else{
+            hoverStyle= {};
+        }
 
         return (
-            <div id={'todo-list-item-' + listItem.id} className='list-item-card'>
+            <div style = {hoverStyle} id={'todo-list-item-' + listItem.id} className='list-item-card' onMouseEnter ={this.toggleHover} onMouseLeave ={this.toggleHover}>
                 <div className='item-col task-col' onClick ={this.handleDescriptionClick} style ={{display:this.state.displayDescription}}>{this.props.toDoListItem.description}</div>
-                <input type = "text" name ="hidden_description_input" value = {this.state.description} onChange = {this.handleDescriptionChange} style ={{display:this.state.hiddenDescription}} onBlur ={this.handleDescriptionBlur} ref = {this.hiddenDescriptionRef}/>
-                <div className='item-col due-date-col' onClick ={this.handleDateClick} style = {{display:this.state.displayDate}}>{this.props.toDoListItem.due_date}</div>
-                <input type ="date" name = "hidden_date_input" value ={this.state.date} style ={{display: this.state.hiddenDate}} onChange ={this.handleDateChange} onBlur = {this.handleDateBlur} ref = {this.hiddenDateRef}/>
-                <div className='item-col status-col' className={statusType} onClick = {this.handleStatusClick} style = {{display:this.state.displayStatus,color : this.props.toDoListItem.status == 'complete' ? "#7CC0FB" : "#EDCE42" }}>{this.props.toDoListItem.status}</div>
-                <select onChange = {this.handleStatusChange} onBlur ={this.handleStatusBlur} style = {{display:this.state.hiddenStatus}} ref = {this.hiddenStatusRef} value ={this.state.status}>
+                <input className='hidden-item-col' type = "text" name ="hidden_description_input" value = {this.state.description} onChange = {this.handleDescriptionChange} style ={{display:this.state.hiddenDescription}} onBlur ={this.handleDescriptionBlur} ref = {this.hiddenDescriptionRef}/>
+                <div className='item-col date-col' onClick ={this.handleDateClick} style = {{display:this.state.displayDate}}>{this.props.toDoListItem.due_date}</div>
+                <input className='hidden-item-col date-col' type ="date" name = "hidden_date_input" value ={this.state.date} style ={{display: this.state.hiddenDate}} onChange ={this.handleDateChange} onBlur = {this.handleDateBlur} ref = {this.hiddenDateRef}/>
+                <div className={statusType} onClick = {this.handleStatusClick} style = {{display:this.state.displayStatus,color : this.props.toDoListItem.status == 'complete' ? "#7CC0FB" : "#EDCE42" }}>{this.props.toDoListItem.status}</div>
+                <select className='hidden-item-col' onChange = {this.handleStatusChange} onBlur ={this.handleStatusBlur} style = {{display:this.state.hiddenStatus}} ref = {this.hiddenStatusRef} value ={this.state.status}>
                     <option value = "complete">complete</option>
                     <option value = "incomplete">incomplete</option>
                 </select>
