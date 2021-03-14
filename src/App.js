@@ -98,18 +98,34 @@ class App extends Component {
   // WILL LOAD THE SELECTED LIST
   loadToDoList = (toDoList) => {
     // console.log("loading " + toDoList);
-
+    let isSameList = false;
+    if(this.state.currentList.id != null && this.state.currentList.id == toDoList.id){
+      isSameList = true;
+    }
     // MAKE SURE toDoList IS AT THE TOP OF THE STACK BY REMOVING THEN PREPENDING
     const nextLists = this.state.toDoLists.filter(testList =>
       testList.id !== toDoList.id
     );
     nextLists.unshift(toDoList);
-
-    this.setState({
-      toDoLists: nextLists,
-      currentList: toDoList,
-      hasCurrentList: true
-    });
+    
+    if(isSameList){
+      this.setState({
+        toDoLists: nextLists,
+        currentList: toDoList,
+        hasCurrentList: true,
+      });
+    }else{
+      this.setState({
+        toDoLists: nextLists,
+        currentList: toDoList,
+        hasCurrentList: true,
+        hasUndo:false,
+        hasRedo:false
+      },() =>{
+        this.tps.clearAllTransactions();
+      });
+    }
+    
   }
 
   addNewList = () => {
@@ -122,7 +138,8 @@ class App extends Component {
       toDoLists: newToDoListsList,
       currentList: newToDoList,
       nextListId: this.state.nextListId+1,
-      hasCurrentList: true
+      hasCurrentList: true,
+      
     }, this.afterToDoListsChangeComplete);
   }
 
