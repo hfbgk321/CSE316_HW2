@@ -52,13 +52,11 @@ class Workspace extends Component {
     }
 
     handleUndo = () =>{
-        let undoRedoInfo = this.props.undoCallBack();
-        this.setState({hasUndo: undoRedoInfo.hasUndo, hasRedo: undoRedoInfo.hasRedo});
+        this.props.undoCallBack();
     }
 
     handleRedo = () =>{
-        let undoRedoInfo = this.props.redoCallBack();
-        this.setState({hasUndo: undoRedoInfo.hasUndo, hasRedo: undoRedoInfo.hasRedo});
+        this.props.redoCallBack();
     }
 
     handleCloseList = () =>{
@@ -93,11 +91,11 @@ class Workspace extends Component {
                     <div id="date-col-header" className="item-col todo-button">Due Date</div>
                     <div id="status-col-header" className="item-col todo-button">Status</div>
                     <div className="item-col" display="flex" flexdirection="row" flexwrap="nowrap">
-                        <Undo id="undo-button" className="list-item-control material-icons todo-button"  onClick ={this.handleUndo} />
-                        <Redo id="redo-button" className="list-item-control material-icons todo-button"  onClick = {this.handleRedo}/>
-                        <AddBox id="add-item-button" className="list-item-control material-icons todo-button" onClick ={this.handleAddNewItem}/>
-                        <Delete id="delete-list-button" className="list-item-control material-icons todo-button" onClick = {this.handleTriggerModal}/>
-                        <Close id="close-list-button" className="list-item-control material-icons todo-button" onClick = {this.handleCloseList}/>
+                        <Undo id="undo-button" className="list-item-control material-icons todo-button" onClick ={this.handleUndo} style ={{color : this.props.hasUndo ? "white": "black", pointerEvents: this.props.hasUndo ? "auto" : "none"}}/>
+                        <Redo id="redo-button" className="list-item-control material-icons todo-button"  onClick = {this.handleRedo} style ={{color : this.props.hasRedo ? "white": "black", pointerEvents: this.props.hasRedo ? "auto" : "none"}}/>
+                        <AddBox id="add-item-button" className="list-item-control material-icons todo-button" onClick ={this.handleAddNewItem} style ={{color : this.props.hasCurrentList ? "white": "black", pointerEvents: this.props.hasCurrentList ? "auto" : "none"}}/>
+                        <Delete id="delete-list-button" className="list-item-control material-icons todo-button" onClick = {this.handleTriggerModal} style ={{color : this.props.hasCurrentList ? "white": "black", pointerEvents: this.props.hasCurrentList ? "auto" : "none"}}/>
+                        <Close id="close-list-button" className="list-item-control material-icons todo-button" onClick = {this.handleCloseList} style ={{color : this.props.hasCurrentList ? "white": "black", pointerEvents: this.props.hasCurrentList ? "auto" : "none"}}/>
                     </div>
                 </div>
                 <div id="todo-list-items-div">
@@ -107,6 +105,7 @@ class Workspace extends Component {
                         <ToDoItem
                             key={toDoListItem.id}
                             positionInList = {index}
+                            lastPosition = {this.props.toDoListItems.length}
                             toDoListItem={toDoListItem}     // PASS THE ITEM TO THE CHILDREN
                             changeNewDescriptionTransactionCallBack = {this.props.changeNewDescriptionTransactionCallBack}
                             changeNewDueDateTransactionCallBack ={this.props.changeNewDueDateTransactionCallBack}

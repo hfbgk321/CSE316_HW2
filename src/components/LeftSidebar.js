@@ -21,7 +21,11 @@ class LeftSidebar extends Component {
                         <AddBox 
                             id="add-list-button"
                             className="material-icons todo_button"
-                            onClick={this.handleAddNewList} />
+                            onClick={this.handleAddNewList} 
+
+                            style ={{color : this.props.hasCurrentList ? "black": "#EDCE42", pointerEvents: this.props.hasCurrentList ? "none" : "auto"}}
+                            
+                            />
                     </span>
                 </div>
                 <div id="todo-lists-list">

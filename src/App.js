@@ -15,6 +15,7 @@ import DeleteItem_Transaction from './transactions/DeleteItem_Transaction';
 import Navbar from './components/Navbar'
 import LeftSidebar from './components/LeftSidebar'
 import Workspace from './components/Workspace'
+import { FlareSharp } from '@material-ui/icons';
 
 {/*import ItemsListHeaderComponent from './components/ItemsListHeaderComponent'
 import ItemsListComponent from './components/ItemsListComponent'
@@ -61,7 +62,10 @@ class App extends Component {
       currentList: {items: []},
       nextListId: highListId+1,
       nextListItemId: highListItemId+1,
-      useVerboseFeedback: true
+      useVerboseFeedback: true,
+      hasUndo: false,
+      hasRedo: false,
+      hasCurrentList: false
     }
   }
 
@@ -72,10 +76,11 @@ class App extends Component {
       //add check undo and redo
     }
     // console.log(this.tps.transactions);
-    return {
+
+    this.setState({
       hasRedo:this.tps.hasTransactionToRedo(),
       hasUndo: this.tps.hasTransactionToUndo()
-    }
+    })
   }
   undo = () =>{
     // console.log(`hasUndo: ${this.tps.hasTransactionToUndo()}`)
@@ -83,10 +88,11 @@ class App extends Component {
       this.tps.undoTransaction();
       //add check undo redo
     }
-    return {
+
+    this.setState({
       hasRedo:this.tps.hasTransactionToRedo(),
       hasUndo: this.tps.hasTransactionToUndo()
-    }
+    })
   }
 
   // WILL LOAD THE SELECTED LIST
@@ -101,7 +107,8 @@ class App extends Component {
 
     this.setState({
       toDoLists: nextLists,
-      currentList: toDoList
+      currentList: toDoList,
+      hasCurrentList: true
     });
   }
 
@@ -114,12 +121,16 @@ class App extends Component {
     this.setState({
       toDoLists: newToDoListsList,
       currentList: newToDoList,
-      nextListId: this.state.nextListId+1
+      nextListId: this.state.nextListId+1,
+      hasCurrentList: true
     }, this.afterToDoListsChangeComplete);
   }
 
   exitCurrentList = () =>{
-    this.setState({currentList: {items: []}});
+    this.setState({currentList: {items: []},hasRedo:false,
+    hasUndo: false,hasCurrentList:false},()=>{
+      this.tps.clearAllTransactions();
+    });
   }
 
   makeNewToDoList = () => {
@@ -151,7 +162,8 @@ class App extends Component {
       items : [...this.state.currentList.items,newItem],
       name: this.state.currentList.name
     }
-    this.setState({currentList: newInfo},this.afterToDoListsChangeComplete);
+    this.setState({currentList: newInfo,hasUndo: this.tps.hasTransactionToUndo(), hasRedo: this.tps.hasTransactionToRedo()},this.afterToDoListsChangeComplete);
+
     return newItem;
   }
 
@@ -179,7 +191,9 @@ class App extends Component {
     }
 
     this.setState({
-      currentList: newInfo
+      currentList: newInfo,
+      hasUndo: this.tps.hasTransactionToUndo(),
+      hasRedo: this.tps.hasTransactionToRedo()
     },this.afterToDoListsChangeComplete);
   }
 
@@ -208,7 +222,9 @@ class App extends Component {
     }
 
     this.setState({
-      currentList: newInfo
+      currentList: newInfo,
+      hasUndo: this.tps.hasTransactionToUndo(),
+      hasRedo: this.tps.hasTransactionToRedo()
     },this.afterToDoListsChangeComplete);
   }
 
@@ -229,7 +245,9 @@ class App extends Component {
     }
 
     this.setState({
-      currentList: newInfo
+      currentList: newInfo,
+      hasUndo: this.tps.hasTransactionToUndo(),
+      hasRedo: this.tps.hasTransactionToRedo()
     },this.afterToDoListsChangeComplete)
   }
 
@@ -252,7 +270,9 @@ class App extends Component {
     }
 
     this.setState({
-      currentList: newInfo
+      currentList: newInfo,
+      hasUndo: this.tps.hasTransactionToUndo(),
+      hasRedo: this.tps.hasTransactionToRedo()
     },this.afterToDoListsChangeComplete)
   }
 
@@ -272,7 +292,9 @@ class App extends Component {
     oldCurrentList.unshift(this.state.currentList);
 
     this.setState({
-      toDoLists: oldCurrentList
+      toDoLists: oldCurrentList,
+      hasUndo: this.tps.hasTransactionToUndo(),
+      hasRedo: this.tps.hasTransactionToRedo()
     },() =>{
       let toDoListsString = JSON.stringify(this.state.toDoLists);
       localStorage.setItem("recentLists", toDoListsString);
@@ -287,10 +309,14 @@ class App extends Component {
 
     this.setState({
       currentList: {items: []},
-      toDoLists: newTodoLists
+      toDoLists: newTodoLists,
+      hasUndo: false,
+      hasRedo: false,
+      hasCurrentList: false
     },() =>{
       let newToDoListsData = JSON.stringify(this.state.toDoLists);
       localStorage.setItem("recentLists",newToDoListsData);
+
     })
   }
 
@@ -337,7 +363,9 @@ class App extends Component {
     
 
     this.setState({
-      currentList : newInfo
+      currentList : newInfo,
+      hasUndo: this.tps.hasTransactionToUndo(),
+      hasRedo: this.tps.hasTransactionToRedo()
     },
       this.afterToDoListsChangeComplete);
   }
@@ -361,7 +389,9 @@ class App extends Component {
       name: this.state.currentList.name
     }
     this.setState({
-      currentList : newInfo
+      currentList : newInfo,
+      hasUndo: this.tps.hasTransactionToUndo(),
+      hasRedo: this.tps.hasTransactionToRedo()
     },this.afterToDoListsChangeComplete);
   }
 
@@ -393,7 +423,9 @@ class App extends Component {
     
 
     this.setState({
-      currentList : newInfo
+      currentList : newInfo,
+      hasUndo: this.tps.hasTransactionToUndo(),
+      hasRedo: this.tps.hasTransactionToRedo()
     },
       this.afterToDoListsChangeComplete)
   }
@@ -425,7 +457,9 @@ class App extends Component {
     
 
     this.setState({
-      currentList : newInfo
+      currentList : newInfo,
+      hasUndo: this.tps.hasTransactionToUndo(),
+      hasRedo: this.tps.hasTransactionToRedo()
     },
       this.afterToDoListsChangeComplete)
   }
@@ -456,7 +490,9 @@ class App extends Component {
     
 
     this.setState({
-      currentList : newInfo
+      currentList : newInfo,
+      hasUndo: this.tps.hasTransactionToUndo(),
+      hasRedo: this.tps.hasTransactionToRedo()
     },
       this.afterToDoListsChangeComplete)
   }
@@ -472,8 +508,12 @@ class App extends Component {
           loadToDoListCallback={this.loadToDoList}
           addNewListCallback={this.addNewList}
           changeCurrentListNameCallBack ={this.changeCurrentListName}
+          hasCurrentList = {this.state.hasCurrentList}
         />
         <Workspace 
+        hasUndo ={this.state.hasUndo}
+        hasRedo = {this.state.hasRedo}
+        hasCurrentList = {this.state.hasCurrentList}
         currentList= {this.state.currentList} 
         toDoListItems={items} addNewItemToList = {this.addNewListItemToList} 
         undoCallBack = {this.undo} redoCallBack = {this.redo} 

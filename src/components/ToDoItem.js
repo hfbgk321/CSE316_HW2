@@ -32,6 +32,7 @@ class ToDoItem extends Component {
         // DISPLAY WHERE WE ARE
         console.log("\t\t\tToDoItem " + this.props.toDoListItem.id + " did mount");
         console.log(`The current pos in the toDoList is ${this.props.positionInList}`)
+        console.log(this.props.positionInList == this.props.lastPosition - 1);
     }
 
     
@@ -134,8 +135,8 @@ class ToDoItem extends Component {
                 </select>
                 <div className='item-col test-4-col'></div>
                 <div className='item-col list-controls-col'>
-                    <KeyboardArrowUp className='list-item-control todo-button' onClick = {this.handleUp}/>
-                    <KeyboardArrowDown className='list-item-control todo-button' onClick = {this.handleDown} />
+                    <KeyboardArrowUp className='list-item-control todo-button' onClick = {this.handleUp} style ={{color : this.props.positionInList == 0 ? "black" : "white", pointerEvents: this.props.positionInList == 0 ? "none": "auto"}}/>
+                    <KeyboardArrowDown className='list-item-control todo-button' onClick = {this.handleDown} style ={{color : this.props.positionInList == this.props.lastPosition - 1 ? "black" : "white", pointerEvents: this.props.positionInList == this.props.lastPosition - 1 ? "none": "auto"}}/>
                     <Close className='list-item-control todo-button' onClick = {this.handleDelete}/>
                     <div className='list-item-control'></div>
         <div className='list-item-control'></div>
