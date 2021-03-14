@@ -1,32 +1,13 @@
 import React, {Component} from 'react';
-
+import Close from '@material-ui/icons/Close';
 
 export default class Modal extends Component{
   constructor(props){
     super(props);
-
-    this.handleClickOutside = this.handleClickOutside.bind(this);
-    this.modalRef = React.createRef();
   }
 
 
-  componentDidMount(){
-    document.addEventListener("mousedown",this.handleClickOutside);
-  }
-
-  componentWillUnmount(){
-    document.removeEventListener("mousedown",this.handleClickOutside);
-  }
-
-
-  handleClickOutside(e){
-    if(this.modalRef &&  !e.path.includes(this.modalRef.current)){
-      // console.log(this.modalRef)
-      // console.log(e.path);
-      // console.log('outside detected');
-      this.handleClose();
-    }
-  }
+  
 
   handleClose = (e) =>{
     // console.log('closing');
@@ -45,11 +26,23 @@ export default class Modal extends Component{
       return null;
     }
     return (
-      <div id = "modal_background" ref ={this.modalRef}>
-        <h1>Hello THis is a Modal</h1>
-        <button onClick = {this.handleDelete}>Delete</button>
-        <button onClick = {this.handleClose}>Close</button>
+      <div id = "modal_container">
+<div id = "modal_background">
       </div>
+      <div id = "modal_content">
+      <div className ="modal_delete_list_row">
+        <h1 className = "modal_delete_list_row_child child1">Delete List?</h1>
+        <Close className = "modal_delete_list_row_child child2" onClick = {this.handleClose}/>
+      </div>
+
+      <div id ="modal_button_container">
+      <button className ="modal_delete_button" onClick = {this.handleDelete}>Delete</button>
+      <button className ="modal_close_button" onClick = {this.handleClose}>Close</button>
+      </div>
+      
+    </div>
+      </div>
+      
       )
     
     

@@ -134,3 +134,89 @@
 .list-item-control {
   width: 20%;
 }
+
+/*Modal styling and layout*/
+
+#modal_container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#modal_background{
+  
+  position: fixed;
+  align-self: center;
+  background-color: #212329;
+  opacity:0.5;
+  bottom:.1rem;
+  right:.1rem;
+  height:63rem;
+  width:122rem;
+  
+}
+
+#modal_content{
+  position: fixed;
+  z-index: 1000;
+  background-color: #42444D;
+  width:30%;
+  height:20%;
+  text-align: center;
+  top:30%;
+  right:33%
+}
+
+.modal_delete_button,.modal_close_button{
+  display: inline-block;
+  margin-top: 3rem;
+  border: none;
+    text-decoration: none;
+    background: inherit;
+    padding:2%;
+    color: #ffffff;
+    font-family: consolas;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 250ms ease-in-out, 
+                transform 150ms ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+}
+
+.modal_delete_button:focus,.modal_delete_button:hover, .modal_close_button:focus,.modal_close_button:hover{
+  background: rgba(255,255,255, 0.7);;
+}
+
+.modal_delete_button{
+  margin-right:23rem;
+}
+
+.modal_delete_list_row{
+  border-bottom: 3px dotted white;
+  margin-left:2rem;
+  margin-right:2rem;
+  padding-bottom: 1rem;
+}
+.modal_delete_list_row_child{
+  display: inline-block;
+}
+
+.child1{
+  margin-right: 22rem;
+  font-size: 19px;
+  margin-top: 2rem;
+
+}
+
+.child2{
+  position: relative;
+  top: .3rem;
+}
+
+.child2:hover,.child2:focus{
+  background: rgba(255,255,255, 0.7);;
+  cursor: pointer;
+}
+
