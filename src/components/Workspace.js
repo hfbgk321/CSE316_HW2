@@ -68,19 +68,19 @@ class Workspace extends Component {
     handleTriggerModal = () =>{
         
         this.setState({visibleModal : true},() =>{
-            console.log('triggering modal');
-            console.log(this.state.visibleModal);
+            // console.log('triggering modal');
+            // console.log(this.state.visibleModal);
         });
     }
 
     showModal = () =>{
         this.setState({
-            visibleModal: !this.state.visibleModal
+            visibleModal: false
         })
     }
 
     handleDeleteList = () =>{
-        console.log('deleting list');
+        // console.log('deleting list');
         this.showModal();
         this.props.deleteCurrentListCallBack();
     }

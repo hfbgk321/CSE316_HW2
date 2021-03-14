@@ -21,19 +21,20 @@ export default class Modal extends Component{
 
   handleClickOutside(e){
     if(this.modalRef &&  !e.path.includes(this.modalRef.current)){
-      console.log(this.modalRef)
-      console.log(e.path);
-      console.log('outside detected');
+      // console.log(this.modalRef)
+      // console.log(e.path);
+      // console.log('outside detected');
+      this.handleClose();
     }
   }
 
   handleClose = (e) =>{
-    console.log('closing');
+    // console.log('closing');
     this.props.onClose && this.props.onClose(e);
   }
 
   handleDelete = (e) =>{
-    console.log('deleting');
+    // console.log('deleting');
     this.props.onDelete && this.props.onDelete(e);
   }
   

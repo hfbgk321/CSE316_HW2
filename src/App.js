@@ -404,7 +404,6 @@ class App extends Component {
   }
 
   changeDueDate = (id, new_duedate) => {
-    debugger;
     let tempList = [];
     let currItems = this.state.currentList.items;
     for(let x = 0; x< currItems.length;x++){

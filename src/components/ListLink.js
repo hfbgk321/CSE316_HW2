@@ -38,7 +38,6 @@ class ListLink extends Component {
     }
 
     handleNameClick = (event) =>{
-        console.log('clicked');
         if(event.detail == 2){
             this.setState({
                 nameMainStyle : "none",
@@ -66,7 +65,6 @@ class ListLink extends Component {
     render() {
         // DISPLAY WHERE WE ARE
         console.log("\t\t\tListLink render");
-        console.log(this.props.position);
         if(this.props.position == 0){
             return (
                 <div>
