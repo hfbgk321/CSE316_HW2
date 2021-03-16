@@ -163,7 +163,7 @@ class App extends Component {
     let newToDoListItem = {
       id: this.state.nextListItemId, // added not sure tho
       description: "No Description",
-      dueDate: "none",
+      dueDate: "",
       status: "incomplete"
     };
     this.setState({

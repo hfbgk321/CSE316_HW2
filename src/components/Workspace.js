@@ -44,7 +44,6 @@ class Workspace extends Component {
             this.props.redoCallBack();
         }
 
-
     }
 
     handleAddNewItem = () => {
