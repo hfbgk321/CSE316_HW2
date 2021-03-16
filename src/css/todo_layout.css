@@ -160,7 +160,7 @@
   z-index: 1000;
   background-color: #42444D;
   width:30%;
-  height:20%;
+  height:25%;
   text-align: center;
   top:30%;
   right:33%
@@ -190,7 +190,7 @@
 }
 
 .modal_delete_button{
-  margin-right:23rem;
+  margin-right:50%;
 }
 
 .modal_delete_list_row{
@@ -204,7 +204,7 @@
 }
 
 .child1{
-  margin-right: 22rem;
+  margin-right: 50%;
   font-size: 19px;
   margin-top: 2rem;
 
