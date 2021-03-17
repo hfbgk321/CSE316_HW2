@@ -37,7 +37,10 @@ class LeftSidebar extends Component {
                             position = {index}
                             toDoList={toDoList}                                // PASS THE LIST TO THE CHILDREN
                             loadToDoListCallback={this.props.loadToDoListCallback}
-                            changeCurrentListNameCallBack ={this.props.changeCurrentListNameCallBack}   />
+                            changeCurrentListNameCallBack ={this.props.changeCurrentListNameCallBack}   
+                            existsCurrentList = {this.props.hasCurrentList}
+                            />
+                            
                             
                         </div>
                         

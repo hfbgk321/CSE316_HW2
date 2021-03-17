@@ -42,6 +42,7 @@
   grid-row: 2 span 1;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 #left-sidebar-header {
@@ -57,9 +58,12 @@
 #todo-lists-list {
   position: absolute;
   text-align: center;
-  height: 80%;
+  height: 90%;
   width: 100%;
   top: 8%;
+  display: flex;
+  overflow-y: auto;
+  flex-direction: column;
 }
 
 .todo-list-button {
@@ -107,24 +111,24 @@
   width: 30%;
 }
 
-.date-col{
-  margin-left:9rem;
-  margin-right:12rem;
+.date-col {
+  margin-left: 9rem;
+  margin-right: 12rem;
 }
 
-.hidden-item-col{
-  width:30%;
+.hidden-item-col {
+  width: 30%;
   margin-top: -1rem;
-  background-color: #42444D;
+  background-color: #42444d;
   color: white;
 }
 
-.hidden-item-col-select{
-  width:30%;
+.hidden-item-col-select {
+  width: 30%;
   margin-top: -1rem;
-  margin-left:0;
-  background-color: #42444D;
-  color:white;
+  margin-left: 0;
+  background-color: #42444d;
+  color: white;
 }
 
 .list-controls-col {
@@ -137,86 +141,85 @@
 
 /*Modal styling and layout*/
 
-#modal_container{
+#modal_container {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-#modal_background{
-  
+#modal_background {
   position: fixed;
   align-self: center;
   background-color: #212329;
-  opacity:0.5;
-  bottom:.1rem;
-  right:.1rem;
-  height:63rem;
-  width:122rem;
-  
+  opacity: 0.5;
+  bottom: 0.1rem;
+  right: 0.1rem;
+  height: 63rem;
+  width: 122rem;
 }
 
-#modal_content{
+#modal_content {
   position: fixed;
   z-index: 1000;
-  background-color: #42444D;
-  width:30%;
-  height:25%;
+  background-color: #42444d;
+  width: 30%;
+  height: 25%;
   text-align: center;
-  top:30%;
-  right:33%
+  top: 30%;
+  right: 33%;
 }
 
-.modal_delete_button,.modal_close_button{
+.modal_delete_button,
+.modal_close_button {
   display: inline-block;
   margin-top: 3rem;
   border: none;
-    text-decoration: none;
-    background: inherit;
-    padding:2%;
-    color: #ffffff;
-    font-family: consolas;
-    font-size: 16px;
-    cursor: pointer;
-    text-align: center;
-    transition: background 250ms ease-in-out, 
-                transform 150ms ease;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-
+  text-decoration: none;
+  background: inherit;
+  padding: 2%;
+  color: #ffffff;
+  font-family: consolas;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 250ms ease-in-out, transform 150ms ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
-.modal_delete_button:focus,.modal_delete_button:hover, .modal_close_button:focus,.modal_close_button:hover{
-  background: rgba(255,255,255, 0.7);;
+.modal_delete_button:focus,
+.modal_delete_button:hover,
+.modal_close_button:focus,
+.modal_close_button:hover {
+  background: rgba(255, 255, 255, 0.7);
 }
 
-.modal_delete_button{
-  margin-right:50%;
+.modal_delete_button {
+  margin-right: 50%;
 }
 
-.modal_delete_list_row{
+.modal_delete_list_row {
   border-bottom: 3px dotted white;
-  margin-left:2rem;
-  margin-right:2rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
   padding-bottom: 1rem;
 }
-.modal_delete_list_row_child{
+.modal_delete_list_row_child {
   display: inline-block;
 }
 
-.child1{
+.child1 {
   margin-right: 50%;
   font-size: 19px;
   margin-top: 2rem;
-
 }
 
-.child2{
+.child2 {
   position: relative;
-  top: .3rem;
+  top: 0.3rem;
 }
 
-.child2:hover,.child2:focus{
-  background: rgba(255,255,255, 0.7);;
+.child2:hover,
+.child2:focus {
+  background: rgba(255, 255, 255, 0.7);
   cursor: pointer;
 }
-

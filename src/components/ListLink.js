@@ -65,13 +65,14 @@ class ListLink extends Component {
     render() {
         // DISPLAY WHERE WE ARE
         console.log("\t\t\tListLink render");
+        console.log(this.props.existsCurrentList);
         if(this.props.position == 0){
             return (
                 <div>
                 <div 
                     className='todo-list-button'
                     onClick={this.handleLoadAndDoubleClick}
-                    style ={{display : this.state.nameMainStyle}}
+                    style ={{display : this.state.nameMainStyle,backgroundColor: this.props.existsCurrentList ? "#E9CE41" : ""}}
                 >
                     {this.props.toDoList.name}<br />
                 </div>
